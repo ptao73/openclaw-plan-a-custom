@@ -4,6 +4,16 @@
 
 纯 Python 实现的四角色协作系统，不依赖任何第三方 agent 框架。完全自建 pipeline 引擎、LLM 客户端、Telegram Bot。
 
+本仓库已经整理为可独立发布的 GitHub 项目。仓库中不包含真实 API Key、Bot Token 或服务器凭据，所有敏感信息都通过环境变量注入。
+
+## 项目亮点
+
+- 不依赖第三方 agent 框架，核心流程全部可读、可改、可控
+- 统一兼容 DeepSeek、Moonshot、Qwen、OpenAI 兼容接口
+- 内置 Planner / Researcher / Executor / Reviewer 四角色协作流
+- 预留远程 worker 路由接口，方便后续扩展为多节点架构
+- 适合作为多角色 agent pipeline 的学习样例和二次开发基础
+
 ## 架构
 
 ```
@@ -120,12 +130,12 @@ async def run(task):
 ## 部署
 
 ```bash
-# 1. 上传到服务器
-scp -r plan-a-custom/ root@SERVER:/opt/openclaw-src/
+# 1. 上传仓库到服务器
+scp -r openclaw-plan-a-custom/ root@SERVER:/opt/openclaw-src/
 
 # 2. 执行部署脚本
 ssh root@SERVER
-cd /opt/openclaw-src
+cd /opt/openclaw-src/openclaw-plan-a-custom
 bash setup.sh
 
 # 3. 配置 API Key
@@ -145,3 +155,8 @@ Plan A 是第一版设计，当时还没有深入使用 OpenClaw 官方框架。
 4. **远程 worker 接口预留**：虽未实现，但设计思路被 Plan B 采纳
 
 最终选择 Plan B 的原因：OpenClaw 已经提供了 gateway、channel adapter、workspace 管理等基础设施，重复造轮子不划算。
+
+## 相关文档
+
+- 踩坑记录见 [LESSONS.md](LESSONS.md)
+- 如果你更关注生产可用的双节点部署，可以看公开仓库 `openclaw-plan-b-official`
