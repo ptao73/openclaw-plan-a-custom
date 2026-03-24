@@ -1,0 +1,87 @@
+{
+  "version": "0.1.0",
+  "instance_id": "hk-central-01",
+  "description": "香港单实例中控 - OpenClaw Multi-Agent Controller",
+
+  "roles": {
+    "planner": {
+      "enabled": true,
+      "prompt_file": "roles/planner.md",
+      "model": "deepseek-chat",
+      "max_retries": 2,
+      "timeout_seconds": 30
+    },
+    "executor": {
+      "enabled": true,
+      "prompt_file": "roles/executor.md",
+      "model": "deepseek-chat",
+      "max_retries": 3,
+      "timeout_seconds": 120,
+      "allowed_tools": ["shell", "file_io", "http_request", "model_call"],
+      "sandbox": true
+    },
+    "researcher": {
+      "enabled": true,
+      "prompt_file": "roles/researcher.md",
+      "model": "deepseek-chat",
+      "max_retries": 2,
+      "timeout_seconds": 60
+    },
+    "reviewer": {
+      "enabled": true,
+      "prompt_file": "roles/reviewer.md",
+      "model": "deepseek-chat",
+      "max_retries": 1,
+      "timeout_seconds": 30
+    }
+  },
+
+  "models": {
+    "deepseek-chat": {
+      "provider": "deepseek",
+      "base_url": "https://api.deepseek.com/v1",
+      "model_name": "deepseek-chat",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "max_tokens": 4096
+    },
+    "moonshot-v1": {
+      "provider": "moonshot",
+      "base_url": "https://api.moonshot.cn/v1",
+      "model_name": "moonshot-v1-8k",
+      "api_key_env": "MOONSHOT_API_KEY",
+      "max_tokens": 4096
+    },
+    "qwen-turbo": {
+      "provider": "dashscope",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "model_name": "qwen-turbo",
+      "api_key_env": "QWEN_API_KEY",
+      "max_tokens": 4096
+    }
+  },
+
+  "pipeline": {
+    "default_flow": ["planner", "researcher|executor", "reviewer"],
+    "max_iterations": 5,
+    "enable_feedback_loop": true
+  },
+
+  "telegram": {
+    "enabled": true,
+    "bot_token_env": "TELEGRAM_BOT_TOKEN",
+    "allowed_chat_ids_env": "TELEGRAM_CHAT_ID",
+    "commands": {
+      "/task": "提交任务",
+      "/status": "查看当前任务状态",
+      "/logs": "查看最近日志",
+      "/config": "查看配置摘要"
+    }
+  },
+
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s [%(name)s] %(levelname)s: %(message)s",
+    "max_file_size_mb": 50,
+    "backup_count": 5
+  }
+}
