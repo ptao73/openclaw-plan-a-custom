@@ -1,5 +1,7 @@
 # Plan A: 自定义 Python 多角色中控系统
 
+[中文](README.md) | [English](README.en.md)
+
 > 状态：已设计完成，可部署。最终选择了 Plan B (OpenClaw 官方) 上线。
 
 纯 Python 实现的四角色协作系统，不依赖任何第三方 agent 框架。完全自建 pipeline 引擎、LLM 客户端、Telegram Bot。
